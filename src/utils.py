@@ -167,7 +167,7 @@ def get_ability_icons(champion, input_path):
 
     return ability_icon_paths
 
-def get_cooldowns(champion):
+def get_cooldowns(champion, input_path):
     """
     """
     if champion == "Dr. Mundo":
@@ -178,7 +178,7 @@ def get_cooldowns(champion):
         champion = 'RekSai'
 
     # Read champ-specific json
-    with open(f"data/dragontail-11.1.1/11.1.1/data/en_US/champion/{champion}.json") as f:
+    with open(f"{input_path}{champion}.json") as f:
       data = json.load(f)
     
     # global cooldown_info
@@ -211,7 +211,7 @@ def get_cooldowns(champion):
     return cooldown_info
 
 
-def get_PQWER(champion):
+def get_PQWER(champion, input_path):
     """
     Consumes a champion name in string form and returns a dictionary containing
     the champion's passive, Q, W, E, and R ability names and descriptions 
@@ -233,7 +233,7 @@ def get_PQWER(champion):
         champion = 'RekSai'
     
     # Read champ-specific json
-    with open(f"data/dragontail-11.1.1/11.1.1/data/en_US/champion/{champion}.json") as f:
+    with open(f"{input_path}{champion}.json") as f:
       data = json.load(f)
     
     # global champ_info
