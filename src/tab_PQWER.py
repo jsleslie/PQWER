@@ -6,9 +6,11 @@ from tkinter import ttk
 from utils import *
 
 
-#####################
-# Helper Functions
-#####################
+##################################
+# Helper Functions and Constants
+##################################
+
+path = "data/dragontail-11.1.1/11.1.1/data/en_US/champion/"
 
 def update_avatar_icon(champion):
     global avatar_icon
@@ -28,7 +30,7 @@ def update_ability_icons(champion):
     """
 
     """
-    champ_ability_icons = get_ability_icons(champion)
+    champ_ability_icons = get_ability_icons(champion, path)
 
     global passive_icon, Q_icon, W_icon, E_icon, R_icon
 
@@ -55,7 +57,7 @@ def update_ability_icons(champion):
         R_label.grid(row=4, column=0)
     
 def update_descriptions(champion):
-    champ_info = get_PQWER(champion)   
+    champ_info = get_PQWER(champion, path)   
 
     Passive_text.config(text=champ_info['passive'])
     Q_text.config(text=champ_info['Q'])
@@ -64,7 +66,7 @@ def update_descriptions(champion):
     R_text.config(text=champ_info['R'])
 
 def update_cooldowns(champion):
-    cooldown_info = get_cooldowns(champion)   
+    cooldown_info = get_cooldowns(champion, path)   
 
     # Passive_text.config(text=champ_info['passive'])
     Q_cooldown.config(text=cooldown_info['Q'])
@@ -127,9 +129,9 @@ if __name__ == '__main__':
 
     # Define and embed update functions into the search button
     search_button = tk.Button(root,text="Search", padx=10, \
-        command=lambda: [update_descriptions(entry1.get().replace(" ","").replace("'","")),\
-                        update_cooldowns(entry1.get().replace(" ","").replace("'","")),\
-                        update_ability_icons(entry1.get().replace(" ","").replace("'","")),\
+        command=lambda: [update_descriptions(entry1.get().replace(" ","").replace("'","").capitalize()),\
+                        update_cooldowns(entry1.get().replace(" ","").replace("'","").capitalize()),\
+                        update_ability_icons(entry1.get().replace(" ","").replace("'","").capitalize()),\
                             update_avatar_icon(entry1.get().replace(" ","").replace("'",""))])
     search_button.grid(row=0,column=2)
 
