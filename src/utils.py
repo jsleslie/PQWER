@@ -136,35 +136,21 @@ class AutocompleteEntry(tk.Entry):
         return [w for w in self.autocompleteList if self.matchesFunction(self.var.get(), w)]
 
 
-def get_ability_icons(champion):
+def get_ability_icons(champion, input_path):
     """
-    Grab the file paths corresponding to the abilities of the selected champion
-
-    List of exceptions in file names (partial - resume check at Gangplank):
-    Lee Sin
-    Diana
-    Elise
-    Udyr
-    Azir
-    Teemo
-    Caitlyn   
-    Dr. Mundo
-    Twisted Fate
-    Corki
-    Darius
-    Anivia
-    Ekko
-    Rammus
-    Cho'gath
-    Alistar
-    Gangplank
-
+    This function takes a champion and input path strings as input and returns a 
+    dictionary of png file paths with keys corresponding to the following 
+    abilities: Passive, Q, W, E, and R
     """
     global ability_icon_paths
     ability_icon_paths = dict()
 
+    # Rek'Sai appears to be the exception in naming conventions
+    if champion == 'Reksai':
+        champion = 'RekSai'
+
     # Read champ-specific json
-    with open(f"data/dragontail-11.1.1/11.1.1/data/en_US/champion/{champion}.json") as f:
+    with open(f"{input_path}{champion}.json") as f:
         data = json.load(f)
 
     P_png = data['data'][champion]['passive']['image']['full']
@@ -179,111 +165,18 @@ def get_ability_icons(champion):
     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{E_png}"
     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{R_png}"
 
-
-    # Group_1 = ['Urgot','Jhin','Kled','Illaoi','Talon','Zac','Zoe','Irelia','Ekko',\
-    #     'Quinn','Jinx','Pantheon','Morgana','Lissandra','Nami','Sejuani','Brand',\
-    #     'Ziggs','Ornn','Sivir','Zed','Nasus','Yone','Zyra','Lucian','Aatrox','Rengar',\
-    #     'Qiyana','Fizz','Cassiopeia','Warwick','Sona','Seraphine','Mordekaiser',\
-    #     'Ivern','Neeko','Shen','Yorick','Xayah','Senna','Rakan','Sion','Fiora',\
-    #     'Poppy','Kayle','Sett','Swain','Syndra','Camille','Maokai','Volibear',\
-    #     'Akali','Malzahar','Tristana','Galio','Bard','Kayn','Lulu','Samira',\
-    #     'Evelynn','Annie','Gnar','Heimerdinger','Ezreal','Lillia','Varus','Vi',\
-    #     'Taric','Gragas','Soraka','Garen','Sylas','Pyke','Yuumi']
-
-    
-
-    # if champion in Group_1:
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{champion}Q.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{champion}W.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{champion}E.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{champion}R.png"
-
-    # if champion == "Ahri":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{champion}OrbOfDeception.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{champion}FoxFire.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{champion}Seduce.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/{champion}Tumble.png"
-
-    # if champion == "MasterYi":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/AlphaStrike.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/Meditate.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/WujuStyle.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/Highlander.png"
-
-    # if champion == "Aphelios":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/ApheliosQ_ClientTooltipWrapper.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/ApheliosW.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/ApheliosE_ClientTooltipWrapper.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/ApheliosR.png"
-
-    # if champion == "LeeSin":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkQOne.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkEOne.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkRKick.png"
-    
-    # if champion == "Amumu":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BandageToss.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/Tantrum.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/CurseoftheSadMummy.png"
-
-    # if champion == "LeeSin":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkQOne.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkEOne.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkRKick.png"
-
-    # if champion == "LeeSin":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkQOne.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkEOne.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkRKick.png"
-
-    # if champion == "LeeSin":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkQOne.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkEOne.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkRKick.png"
-
-    # if champion == "LeeSin":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkQOne.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkEOne.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkRKick.png"
-
-    # if champion == "LeeSin":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkQOne.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkEOne.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkRKick.png"
-
-    # if champion == "LeeSin":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkQOne.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkEOne.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkRKick.png"
-
-    # if champion == "LeeSin":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkQOne.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkEOne.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkRKick.png"
-
-    # if champion == "LeeSin":
-    #     ability_icon_paths['Q'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkQOne.png"
-    #     ability_icon_paths['W'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkWOne.png"
-    #     ability_icon_paths['E'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkEOne.png"
-    #     ability_icon_paths['R'] = f"data/dragontail-11.1.1/11.1.1/img/spell/BlindMonkRKick.png"
-
-
-
-
     return ability_icon_paths
 
 def get_cooldowns(champion):
     """
     """
+    if champion == "Dr. Mundo":
+        champion = "DrMundo"
+
+    # Rek'Sai appears to be the exception in naming conventions
+    if champion == 'Reksai':
+        champion = 'RekSai'
+
     # Read champ-specific json
     with open(f"data/dragontail-11.1.1/11.1.1/data/en_US/champion/{champion}.json") as f:
       data = json.load(f)
@@ -332,6 +225,12 @@ def get_PQWER(champion):
     get_PQWER("Malphite") -> dictionary
     
     """
+    if champion == "Dr. Mundo":
+        champion = "DrMundo"
+
+    # Rek'Sai appears to be the exception in naming conventions
+    if champion == 'Reksai':
+        champion = 'RekSai'
     
     # Read champ-specific json
     with open(f"data/dragontail-11.1.1/11.1.1/data/en_US/champion/{champion}.json") as f:
