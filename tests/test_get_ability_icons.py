@@ -23,4 +23,7 @@ file_extensions = set(list(map(lambda x: x[-3:], values)))
 assert len(file_extensions) == 1, "Function returns one type of file extension path"
 assert file_extensions.pop() == 'png', "All dictionary values are png file paths"
 
-print("get_ability_icons test passed!")
+assert all(type(value) == str for value in get_ability_icons("Malphite", data_path).values()),\
+    "Confirm that all dictionary values are a string"
+
+print("All get_ability_icons tests passed!")
